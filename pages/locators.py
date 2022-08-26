@@ -8,8 +8,8 @@ class LoginPageLocators():
     REGISTER_FORM = (By.ID, "register_form")
 
 class ProductPageLocators():
-    BUTTON_TO_CART = (By.CSS_SELECTOR, ".btn-add-to-basket")
+    BUTTON_TO_CART = (By.CSS_SELECTOR, ".btn-add-to-basket[data-loading-text='Adding...']")
     BOOK_NAME = (By.CSS_SELECTOR, ".product_main h1")
     BOOK_PRICE = (By.CSS_SELECTOR, ".product_main .price_color")
-    SUCCESS_MESSAGE = (By.XPATH, ".//div[@id='messages']/div[contains(@class, 'alert-success')][1]/div")
-    TOTAL_MESSAGE = (By.CSS_SELECTOR, ".alert-info div p:first-child")
+    SUCCESS_MESSAGE = (By.XPATH, ".//div[@id='messages']/div[contains(@class, 'alert-success')][1]/div/strong")
+    TOTAL_MESSAGE = (By.CSS_SELECTOR, ".alert-info div p:first-child strong")

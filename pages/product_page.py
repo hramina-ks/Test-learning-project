@@ -15,9 +15,11 @@ class ProductPage (BasePage):
     def is_book_name_ok(self):
         message = self.browser.find_element(*ProductPageLocators.SUCCESS_MESSAGE).text
         book_name = self.browser.find_element(*ProductPageLocators.BOOK_NAME).text
-        assert book_name in message, "Book name in message is wrong" # проверяю, что в алерте название нужной книги
+        assert book_name == message, "Book name in message is wrong" # проверяю, что в алерте название нужной книги
 
     def is_total_ok(self):
         book_price = self.browser.find_element(*ProductPageLocators.BOOK_PRICE).text
+        print(book_price)
         total_message = self.browser.find_element(*ProductPageLocators.TOTAL_MESSAGE).text
-        assert book_price in total_message, "Total price is wrong!"
+        print(total_message)
+        assert book_price == total_message, "Total price is wrong!"
