@@ -24,7 +24,6 @@ def test_guest_can_add_product_to_basket(browser): # Чтобы запустит
     page.put_product_to_cart()
     #page.solve_quiz_and_get_code()
     page.should_be_message_product_in_cart()
-    #time.sleep(20)
     page.is_book_name_ok()
     page.is_total_ok()
 
