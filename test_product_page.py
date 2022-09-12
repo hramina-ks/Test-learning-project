@@ -36,7 +36,6 @@ class TestUserAddToBasketFromProductPage():
         page.open()
         page.should_be_button_to_cart()
         page.put_product_to_cart()
-        #page.solve_quiz_and_get_code()
         page.should_be_message_product_in_cart()
         page.is_book_name_ok()
         page.is_total_ok()
@@ -65,7 +64,6 @@ def test_guest_can_add_product_to_basket(browser): # Чтобы запустит
     page.open()
     page.should_be_button_to_cart()
     page.put_product_to_cart()
-    #page.solve_quiz_and_get_code()
     page.should_be_message_product_in_cart()
     page.is_book_name_ok()
     page.is_total_ok()
@@ -92,7 +90,6 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     page = ProductPage(browser,link) #Инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
     basket_page = BasketPage(browser,basket_link)
     page.open()
-    #time.sleep(2)
     page.should_be_basket_button()
     basket_page.go_to_basket()
     basket_page.should_be_basket_url()
