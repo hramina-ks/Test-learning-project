@@ -1,20 +1,60 @@
+from re import S
 from signal import pause
 from selenium.webdriver.common.by import By
+from pages.base_page import BasePage
 from pages.product_page import ProductPage
 from pages.basket_page import BasketPage
+from pages.login_page import LoginPage
 import pytest
 import time
 
+@pytest.mark.new
+class TestUserAddToBasketFromProductPage():
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/"
+        page = LoginPage(browser, link)
+        page.open()
+        name = page.generate_random_word(8) # Эти три строки создают фейковый email. Name создает имя пользователя
+        host = page.generate_random_word(5) # host создает домен
+        email = f'{name}@{host}.com' # Тут собирается email целиком
+        password = page.generate_random_word(10) # Эта строка генерирует пароль
+        page.go_to_login_page()
+        page.register_new_user(email, password)
+        page.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = ProductPage(browser,link)
+        page.open()
+        page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(self, browser): 
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = ProductPage(browser,link) #Инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
+        page.open()
+        page.should_be_button_to_cart()
+        page.put_product_to_cart()
+        #page.solve_quiz_and_get_code()
+        page.should_be_message_product_in_cart()
+        page.is_book_name_ok()
+        page.is_total_ok()
+
+def test_guest_cant_see_success_message(browser):
+    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+    page = ProductPage(browser,link)
+    page.open()
+    page.should_not_be_success_message()
 """@pytest.mark.parametrize('offer_number', ["0",
-                                  "1",
-                                  "2",
-                                  "3",
-                                  "4",
-                                  "5",
-                                  "6",
-                                  pytest.param("7", marks=pytest.mark.xfail(reason="don't fixed")),
-                                  "8",
-                                  "9"])"""
+                                    "1",
+                                    "2",
+                                    "3",
+                                    "4",
+                                    "5",
+                                    "6",
+                                    pytest.param("7", marks=pytest.mark.xfail(reason="don't fixed")),
+                                    "8",
+                                    "9"])"""
 
 def test_guest_can_add_product_to_basket(browser): # Чтобы запустить этот тест с параметром выше, нужно добавить offer_number в параметры функции 
     # и изменить ссылку на f"http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer{offer_number}"
@@ -42,20 +82,13 @@ def test_guest_cant_see_message_after_adding_product_to_basket(browser):
     page.put_product_to_cart()
     page.should_not_be_success_message()
 
-def test_guest_cant_see_success_message(browser):
-    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
-    page = ProductPage(browser,link)
-    page.open()
-    page.should_not_be_success_message()
-
-@pytest.mark.new
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
     basket_link = "http://selenium1py.pythonanywhere.com/en-gb/basket/"
     page = ProductPage(browser,link) #Инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
     basket_page = BasketPage(browser,basket_link)
     page.open()
-    time.sleep(2)
+    #time.sleep(2)
     page.should_be_basket_button()
     basket_page.go_to_basket()
     basket_page.should_be_basket_url()

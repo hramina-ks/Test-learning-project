@@ -7,12 +7,19 @@ from selenium.webdriver.support import expected_conditions as EC
 from conftest import browser
 from .locators import BasePageLocators, BasketPageLocators
 import math
+import random
+import string
 
 class BasePage():
     def __init__(self, browser, url, timeout=10): 
         self.browser = browser
         self.url = url
         #self.browser.implicitly_wait(timeout)
+
+    def generate_random_word(self,length):
+            letters = string.ascii_lowercase
+            rand_word = ''.join(random.choice(letters) for i in range(length))
+            return rand_word
 
     def go_to_basket(self): # Переход в корзину с любой страницы
         button_to_cart_main = self.browser.find_element(*BasePageLocators.BUTTON_TO_BASKET_MAIN)
@@ -48,6 +55,10 @@ class BasePage():
         
     def open(self): # Открывает ссылку на страницу
         self.browser.get(self.url) 
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented,"\
+                                                                     "probably unauthorised user"
 
     def should_be_basket_button(self): # Проверяет наличие кнопки корзмны в шапке
         assert self.is_element_present(*BasePageLocators.BUTTON_TO_BASKET_MAIN), "Basket button in header is not presented"
