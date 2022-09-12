@@ -1,4 +1,3 @@
-from operator import ne
 from .base_page import BasePage
 from .locators import LoginPageLocators
 
