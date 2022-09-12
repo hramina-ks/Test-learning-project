@@ -6,8 +6,8 @@ class BasePageLocators:
     LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc") # Сломанная ссылка на авторизацию
     USER_ICON = (By.CSS_SELECTOR, ".icon-user") # Иконка - аватар авторизованного юзера
 
-#class MainPageLocators:
-    #LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
+class MainPageLocators:
+    LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
 
 class LoginPageLocators:
     LOGIN_FORM = (By.ID, "login_form") # Форма авторизации
